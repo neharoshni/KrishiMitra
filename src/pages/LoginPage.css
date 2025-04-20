@@ -1,0 +1,66 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: #121212; /* optional dark background */
+  }
+  
+  /* Animate title */
+  .login-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+    animation: fadeSlideIn 1.2s ease-in forwards;
+    opacity: 0;
+  }
+  
+  /* Subtitle animation */
+  .login-subtitle {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #999999;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
+    animation: fadeSlideIn 1s ease-out forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
+  }
+  
+  
+  /* Animate Google button */
+  .animated-google-button {
+    animation: fadeSlideUp 0.6s ease-out forwards;
+    opacity: 0;
+    transition: transform 0.3s ease;
+  }
+  
+
+  
+  /* Keyframes */
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeSlideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  

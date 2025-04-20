@@ -1,0 +1,251 @@
+/* Page container layout */
+.survey-container {
+  display: flex;
+  height: 100vh;
+  padding: 40px;
+  background-color: #121212;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Left column: the form */
+.survey-form {
+  flex: 1;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+}
+
+.survey-form h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.survey-form label {
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Inputs, textareas, and dropdowns */
+.survey-form input,
+.survey-form textarea,
+.survey-form select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  box-shadow: inset 0 0 0 1px #333;
+  transition: box-shadow 0.2s ease;
+  margin-bottom: 10px;
+}
+
+/* Focus effect */
+.survey-form input:focus,
+.survey-form textarea:focus,
+.survey-form select:focus {
+  box-shadow: 0 0 0 2px #007bff;
+}
+
+/* Custom dropdown arrow */
+.survey-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+}
+
+/* Submit button */
+.survey-form button[type="submit"] {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.survey-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Top row: welcome + logout */
+.survey-form > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Logout button */
+.survey-form > div button {
+  background-color: #444;
+  color: white;
+  font-size: 14px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.survey-form > div button:hover {
+  background-color: #666;
+}
+
+/* Chatbot popup */
+.chatbot-popup {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 400px;
+  height: 600px;
+  background-color: #f0f0f0;
+  color: #222;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  animation: fadeSlideUp 0.4s ease-out;
+  z-index: 999;
+}
+
+
+/* Header (greeting message) */
+.chatbot-header {
+  flex-grow: 1;
+}
+
+.chatbot-header h3 {
+  margin-bottom: 6px;
+}
+
+/* Footer (input + buttons) */
+.chatbot-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chatbot-input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #222;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
+}
+
+.chatbot-send,
+.chatbot-mic {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chatbot-send:hover,
+.chatbot-mic:hover {
+  background-color: #0056b3;
+}
+
+
+/* Chat popup animations */
+.fade-in {
+  animation: fadeSlideUp 0.4s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeSlideOut 0.3s ease-in forwards;
+}
+
+@keyframes fadeSlideUp {
+  0% {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideOut {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(20px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Chat close "X" button */
+.chatbot-popup .chat-close {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: #222;
+  cursor: pointer;
+}
+
+/* Floating chat icon */
+.chat-icon {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 25px;
+  border-radius: 50%;
+  padding: 16px 18px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  animation: bounceFadeIn 0.6s ease-in;
+  z-index: 1000;
+  transition: background-color 0.2s ease;
+}
+
+.chat-icon:hover {
+  background-color: #0056b3;
+}
+
+@keyframes bounceFadeIn {
+  0% {
+    transform: scale(0.8) translateY(30px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) translateY(-4px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
