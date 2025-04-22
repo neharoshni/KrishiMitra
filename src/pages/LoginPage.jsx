@@ -1,7 +1,7 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
-import './LoginPage.css'; // 👈 import the CSS
+import './LoginPage.css'; 
 
 function LoginPage() {
   const navigate = useNavigate();
