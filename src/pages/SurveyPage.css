@@ -249,3 +249,74 @@
     transform: scale(1) translateY(0);
   }
 }
+
+/* Spinner, banners, and field errors */
+.spinner {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.error-banner {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.success-banner {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.75rem;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Fixed position banner at top */
+.error-banner,
+.success-banner {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 80px); /* account for container padding */
+  max-width: 600px;
+  z-index: 1001;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* Fade‑out modifier */
+.banner-hide {
+  opacity: 0;
+}
+
+/* at the very end of SurveyPage.css */
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 40px;      /* matches the container’s 40px side padding */
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 1002;    /* ensures it sits above banners */
+  transition: background-color 0.2s ease;
+}
+.logout-btn:hover {
+  background-color: #666;
+}
+
