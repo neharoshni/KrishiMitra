@@ -2,6 +2,9 @@ import React, { useState, useEffect, useTransition, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { faSquareArrowUpRight } from '@fortawesome/free-solid-svg-icons';
+
 import './SurveyPage.css';
 
 const API_BASE = import.meta.env.VITE_KRISHI_MITRA_USER_URL;
@@ -215,9 +218,17 @@ function SurveyPage() {
             <p>Thanks for submitting! Let’s chat about your farm.</p>
           </div>
           <div className="chatbot-footer">
-            <input type="text" placeholder="Type your message..." className="chatbot-input" />
-            <button className="chatbot-send">📤</button>
-            <button className="chatbot-mic">🎤</button>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="chatbot-input"
+            />
+            <button className="chatbot-send">
+              <FontAwesomeIcon icon={faSquareArrowUpRight} style={{color: "#ffffff",}} />
+            </button>
+            <button className="chatbot-mic">
+              <FontAwesomeIcon icon={faMicrophone} style={{color: "#ffffff",}} />
+            </button>
           </div>
         </div>
       )}
