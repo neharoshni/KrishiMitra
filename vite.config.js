@@ -12,6 +12,6 @@ export default defineConfig({
         secure: false,
       }
     },
-    allowedHosts: ['chat.paritoshraj.com']
+    allowedHosts: ['neharoshni.com']
   }
 })
