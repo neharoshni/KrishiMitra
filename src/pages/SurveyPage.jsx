@@ -1,17 +1,31 @@
 import React, { useState, useEffect, useTransition, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
-import { faSquareArrowUpRight } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCommentDots,
+  faLeaf,
+  faSeedling,
+  faWater,
+  faMapMarkerAlt,
+  faRulerCombined,
+  faTractor
+} from '@fortawesome/free-solid-svg-icons';
+import ChatBot from '../components/ChatBot';
 
 import './SurveyPage.css';
 
 const API_BASE = import.meta.env.VITE_KRISHI_MITRA_USER_URL;
+const BYPASS_AUTH = import.meta.env.VITE_BYPASS_GOOGLE_AUTH === "true";
 
 // Spinner component
 function Spinner() {
-  return <div className="spinner">Loading...</div>;
+  return (
+    <div className="spinner-container">
+      <FontAwesomeIcon icon={faTractor} className="spinner-logo" />
+      <div className="spinner-text">Loading KrishiMitra...</div>
+      <div className="spinner"></div>
+    </div>
+  );
 }
 
 // Error banner component
@@ -51,6 +65,22 @@ function SurveyPage() {
     }
     const parsed = JSON.parse(stored);
     setUser(parsed);
+
+    // Special handling for test user
+    if (BYPASS_AUTH && parsed.email === "test@example.com") {
+      // For test user, we'll pre-fill the form with sample data
+      setFormData({
+        farmSize: '10',
+        location: 'Test Farm',
+        soilType: 'loamy',
+        irrigationCapacity: 'medium'
+      });
+
+      // We'll mark the form as submitted so the chat button appears
+      setIsSubmitted(true);
+      setLoading(false);
+      return;
+    }
 
     (async () => {
       try {
@@ -153,7 +183,8 @@ function SurveyPage() {
   const openChat = () => setChatVisible(true);
   const closeChat = () => {
     setIsClosing(true);
-    setTimeout(() => { setChatVisible(false); setIsClosing(false); }, 300);
+    // Increased timeout to match the new animation duration (400ms)
+    setTimeout(() => { setChatVisible(false); setIsClosing(false); }, 400);
   };
 
   if (loading) return <Spinner />;
@@ -162,23 +193,54 @@ function SurveyPage() {
     <div className="survey-container" style={{ position: 'relative' }}>
       {error && <ErrorBanner ref={bannerRef} message={error} />}
       {success && <SuccessBanner ref={bannerRef} message={success} />}
-      
+
       <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
       <form className="survey-form" onSubmit={handleSubmit} noValidate>
-        <h2>Welcome, {user.name}!!</h2>
+        <div className="form-header">
+          <FontAwesomeIcon icon={faTractor} className="form-header-icon" />
+          <h2>Welcome, {user.name}!!</h2>
+        </div>
 
-        <label>1. Farm Size (in acres)</label>
-        <input name="farmSize" type="number" value={formData.farmSize} onChange={handleChange} disabled={exists || isSubmitted} />
+        <label>
+          <FontAwesomeIcon icon={faRulerCombined} className="input-icon" />
+          1. Farm Size (in acres)
+        </label>
+        <input
+          name="farmSize"
+          type="number"
+          value={formData.farmSize}
+          onChange={handleChange}
+          disabled={exists || isSubmitted}
+          placeholder="Enter farm size in acres"
+        />
         {fieldErrors.farmSize && <div className="field-error">{fieldErrors.farmSize}</div>}
 
-        <label>2. Location</label>
-        <input name="location" type="text" value={formData.location} onChange={handleChange} disabled={exists || isSubmitted} />
+        <label>
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="input-icon" />
+          2. Location
+        </label>
+        <input
+          name="location"
+          type="text"
+          value={formData.location}
+          onChange={handleChange}
+          disabled={exists || isSubmitted}
+          placeholder="Enter your farm location"
+        />
         {fieldErrors.location && <div className="field-error">{fieldErrors.location}</div>}
 
-        <label>3. Type of Soil</label>
-        <select name="soilType" value={formData.soilType} onChange={handleChange} disabled={exists || isSubmitted}>
-          <option value="">Select one</option>
+        <label>
+          <FontAwesomeIcon icon={faSeedling} className="input-icon" />
+          3. Type of Soil
+        </label>
+        <select
+          name="soilType"
+          value={formData.soilType}
+          onChange={handleChange}
+          disabled={exists || isSubmitted}
+        >
+          <option value="">Select soil type</option>
           <option value="black">Black Soil</option>
           <option value="red">Red Soil</option>
           <option value="clay">Clay Soil</option>
@@ -187,9 +249,17 @@ function SurveyPage() {
         </select>
         {fieldErrors.soilType && <div className="field-error">{fieldErrors.soilType}</div>}
 
-        <label>4. Irrigation Capacity</label>
-        <select name="irrigationCapacity" value={formData.irrigationCapacity} onChange={handleChange} disabled={exists || isSubmitted}>
-          <option value="">Select one</option>
+        <label>
+          <FontAwesomeIcon icon={faWater} className="input-icon" />
+          4. Irrigation Capacity
+        </label>
+        <select
+          name="irrigationCapacity"
+          value={formData.irrigationCapacity}
+          onChange={handleChange}
+          disabled={exists || isSubmitted}
+        >
+          <option value="">Select irrigation capacity</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
@@ -199,13 +269,17 @@ function SurveyPage() {
 
         <button type="submit" disabled={exists || isSubmitted || isPending}>
           {(exists || isSubmitted) ? 'Update form feature coming soon' : isPending ? 'Submitting...' : 'Submit'}
+          {!isPending && <FontAwesomeIcon icon={faLeaf} className="button-icon" />}
         </button>
       </form>
 
       {/* Chat Icon */}
-      {!chatVisible && (exists || isSubmitted) && (
-        <button className="chat-icon" onClick={openChat}>
-          <FontAwesomeIcon icon={faUser} />
+      {!chatVisible && (exists || isSubmitted || BYPASS_AUTH) && (
+        <button className="chat-icon" onClick={openChat} aria-label="Open agricultural assistant chat">
+          <div className="chat-icon-inner">
+            <FontAwesomeIcon icon={faCommentDots} className="chat-icon-bubble" />
+            <FontAwesomeIcon icon={faSeedling} className="chat-icon-leaf" />
+          </div>
         </button>
       )}
 
@@ -213,23 +287,16 @@ function SurveyPage() {
       {chatVisible && (
         <div className={`chatbot-popup ${isClosing ? 'fade-out' : 'fade-in'}`}>
           <button className="chat-close" onClick={closeChat}>×</button>
-          <div className="chatbot-header">
-            <h3>Hello {user.name} 👋</h3>
-            <p>Thanks for submitting! Let’s chat about your farm.</p>
-          </div>
-          <div className="chatbot-footer">
-            <input
-              type="text"
-              placeholder="Type your message..."
-              className="chatbot-input"
-            />
-            <button className="chatbot-send">
-              <FontAwesomeIcon icon={faSquareArrowUpRight} style={{color: "#ffffff",}} />
-            </button>
-            <button className="chatbot-mic">
-              <FontAwesomeIcon icon={faMicrophone} style={{color: "#ffffff",}} />
-            </button>
-          </div>
+          <ChatBot
+            user={{
+              ...user,
+              farmSize: formData.farmSize,
+              location: formData.location,
+              soilType: formData.soilType,
+              irrigationCapacity: formData.irrigationCapacity
+            }}
+            onClose={closeChat}
+          />
         </div>
       )}
     </div>
